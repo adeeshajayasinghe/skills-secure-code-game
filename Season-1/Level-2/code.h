@@ -60,11 +60,12 @@ int create_user_account(bool isAdmin, const char *username) {
         return INVALID_USER_ID;
     }
     ua->isAdmin = isAdmin;
-    ua->userid = userid_next++;
+    ua->userid = userid_next;
+    userid_next += 1;
     strcpy(ua->username, username);
     memset(&ua->setting, 0, sizeof ua->setting);
-    accounts[userid_next] = ua;
-    return userid_next++;
+    accounts[ua->userid] = ua;
+    return ua->userid ;
 }
 
 // Updates the matching setting for the specified user and returns the status of the operation
@@ -80,7 +81,7 @@ bool update_setting(int user_id, const char *index, const char *value) {
         return false;
 
     v = strtol(value, &endptr, 10);
-    if (*endptr || i >= SETTINGS_COUNT)
+    if (*endptr || i >= SETTINGS_COUNT || i < 0)
         return false;
     accounts[user_id]->setting[i] = v;
     return true;
