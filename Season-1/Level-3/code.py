@@ -58,7 +58,7 @@ class TaxPayer:
         if not normedPath.startswith(base_dir):
             return None
 
-        with open(path, 'rb') as form:
+        with open(normedPath, 'rb') as form:
             tax_data = bytearray(form.read())
 
         # assume that tax data is returned on screen after this
